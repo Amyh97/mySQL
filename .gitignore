@@ -2,3 +2,4 @@ core.Microsoft*
 env.py
 __pycache__/
 *.py[cod]
+*.sql
