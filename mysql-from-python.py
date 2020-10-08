@@ -14,12 +14,14 @@ connection = pymysql.connect(host='localhost',
 
 try:
     # Run a query
-    with connection.cursor(pymysql.cursors.DictCursor) as cursor:
-        rows = [("Joanna", 54, "1966-03-20 12:10:56"),
-                ("Fred", 85, "1947-08-25 15:36:38"),
-                ("Bob", 40, "1980-03-06 14:36:58")]
-        cursor.executemany("INSERT INTO friends VALUES (%s, %s, %s);", rows)
+    with connection.cursor() as cursor:
+        list_of_names = ['Fred', 'Bob']
+        # prepare string form dynamic place holders
+        format_strings = ','.join(['%s']*len(list_of_names))
+        cursor.execute("DELETE FROM Friends WHERE name IN ({});".format(format_strings), list_of_names)
         connection.commit()
+      
+
 finally:
     # Close the connection, regardless of whether or not it was successful
     connection.close()
